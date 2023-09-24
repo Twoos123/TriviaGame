@@ -1,3 +1,96 @@
 .App {
   text-align: center;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(45deg, #007bff, #28a745);
+  font-family: Arial, sans-serif;
+  height: 100vh; /* Set height to fill the viewport */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+/* Add styles to the outer container */
+.container {
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+button {
+  font-size: 16px;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05); /* Scale the button slightly on hover */
+  background-color: #0056b3; /* Change background color on hover */
+}
+
+button.next {
+  background-color: #28a745;
+  transition: transform 0.2s ease, background-color 0.2s ease; 
+}
+
+button.next:hover {
+  transform: scale(1.05); /* Scale the "Next" button slightly on hover */
+  background-color: #1d8526; /* Change background color on hover */
+}
+
+button.restart {
+  font-size: 16px;
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  background-color: #dc3545; /* Red color for restart button */
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* On hover, slightly scale and change background color for the restart button */
+button.restart:hover {
+  transform: scale(1.05);
+  background-color: #c82333; /* Darker red on hover */
+}
+
+p.feedback {
+  font-size: 18px;
+  margin-top: 20px;
+  color: #d9534f; /* Red color for incorrect answers */
+}
+
+p.success {
+  color: #5bc0de; /* Blue color for correct answers */
+}
+
+div.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
