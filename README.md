@@ -12,3 +12,4 @@ Goal 4: Now fetch an easy multiple choice question from the general knowledge ca
 
 Goal 5: If the user choses the correct answer, give them a success message, and the option to move on to the next stage of the game. If they chose the incorrect answer, give them a failure message including what the correct answer was, and have them restart the game.
 
+Goal 6: Repeat with goals 1-5 with medium, and then hard questions
