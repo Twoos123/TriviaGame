@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import he from 'he'; // Import the 'he' library for decoding HTML entities
-import './App.css'; 
+import './App.css';
 
 const Trivia = () => {
   const [question, setQuestion] = useState('');
@@ -10,11 +10,12 @@ const Trivia = () => {
   const [showNextButton, setShowNextButton] = useState(false); // Control visibility of "Next" button
   const [choices, setChoices] = useState([]); // Store multiple-choice options
   const [correctAnswer, setCorrectAnswer] = useState(''); // Store the correct answer
+  const [difficulty, setDifficulty] = useState('easy'); // Default to 'easy'
 
   const fetchQuestion = async () => {
     try {
       const response = await axios.get(
-        'https://opentdb.com/api.php?amount=1&difficulty=easy&type=multiple&category=9'
+        `https://opentdb.com/api.php?amount=1&difficulty=${difficulty}&type=multiple&category=9`
       );
 
       if (response.data.results.length > 0) {
@@ -43,7 +44,7 @@ const Trivia = () => {
 
   useEffect(() => {
     fetchQuestion(); // Fetch the initial question when the component mounts
-  }, []);
+  }, [difficulty]);
 
   const handleAnswer = (answer) => {
     const isCorrect = answer === correctAnswer;
@@ -70,8 +71,30 @@ const Trivia = () => {
   return (
     <div className="container">
       <h1>Trivia Game</h1>
+
+      <div className="difficulty-buttons">
+        <button
+          className={`difficulty-button easy-button ${difficulty === 'easy' ? 'active' : ''}`}
+          onClick={() => setDifficulty('easy')}
+        >
+          Easy
+        </button>
+        <button
+          className={`difficulty-button medium-button ${difficulty === 'medium' ? 'active' : ''}`}
+          onClick={() => setDifficulty('medium')}
+        >
+          Medium
+        </button>
+        <button
+          className={`difficulty-button hard-button ${difficulty === 'hard' ? 'active' : ''}`}
+          onClick={() => setDifficulty('hard')}
+        >
+          Hard
+        </button>
+      </div>
+
       <p className="question">Question: {question}</p>
-  
+
       <div className="choices">
         {choices.map((choice, index) => (
           <button key={index} onClick={() => handleAnswer(choice)}>
@@ -79,19 +102,25 @@ const Trivia = () => {
           </button>
         ))}
       </div>
-  
-      {feedback && <p className={userAnswer === correctAnswer ? 'feedback success' : 'feedback'}>
-        {feedback}
-      </p>}
-  
-      {showNextButton && <div className="button-container">
-        <button className="next" onClick={handleNextQuestion}>Next</button>
-      </div>}
+
+      {feedback && (
+        <p className={userAnswer === correctAnswer ? 'feedback success' : 'feedback'}>{feedback}</p>
+      )}
+
+      {showNextButton && (
+        <div className="button-container">
+          <button className="next" onClick={handleNextQuestion}>
+            Next
+          </button>
+        </div>
+      )}
       {!showNextButton && userAnswer !== null && (
         <div className="button-container">
-        <button className="restart" onClick={handleRestart}> Restart</button>
-  </div>
-)}
+          <button className="restart" onClick={handleRestart}>
+            Restart
+          </button>
+        </div>
+      )}
     </div>
   );
 };
