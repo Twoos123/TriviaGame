@@ -9,9 +9,9 @@ body {
   font-family: Arial, sans-serif;
   height: 100vh;
   display: flex;
-  flex-direction: column; /* Align content vertically */
   justify-content: center;
   align-items: center;
+  transition: background 0.5s ease-in-out; /* Add background transition */
 }
 
 .container {
@@ -20,28 +20,40 @@ body {
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
+  max-width: 800px;
   margin: 0 auto;
-  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: row;
+  transition: box-shadow 0.3s ease-in-out; /* Add box shadow transition */
 }
 
+/* Add hover effect to the container */
 .container:hover {
-  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
-.category-container {
-  text-align: center;
-  padding: 20px;
+.side-panel {
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  margin: 0 auto 20px auto; /* Adjusted margin to create space between the main container and category container */
-  transition: transform 0.2s ease;
+  width: 200px;
+  padding: 20px;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  transition: box-shadow 0.3s ease-in-out; /* Add box shadow transition */
 }
 
-.category-container:hover {
-  transform: scale(1.02);
+/* Add hover effect to the side panel */
+.side-panel:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.side-panel h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
 h1 {
@@ -55,6 +67,7 @@ p {
   margin-bottom: 20px;
 }
 
+/* Add animations to buttons */
 button {
   font-size: 16px;
   padding: 10px 20px;
@@ -100,10 +113,14 @@ button.restart:hover {
   opacity: 0.9;
 }
 
+/* Add background color to feedback messages */
 p.feedback {
   font-size: 18px;
   margin-top: 20px;
   color: #d9534f;
+  background-color: rgba(255, 0, 0, 0.1);
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
 p.success {

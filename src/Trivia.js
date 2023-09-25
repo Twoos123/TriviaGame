@@ -11,34 +11,44 @@ const Trivia = () => {
   const [choices, setChoices] = useState([]);
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [difficulty, setDifficulty] = useState('easy');
-  const [category, setCategory] = useState(9);
-  const [lives, setLives] = useState(3);
-  const [points, setPoints] = useState(0);
-  const [buttonsDisabled, setButtonsDisabled] = useState(false);
+  const [category, setCategory] = useState(9); // Default category: General Knowledge
+  const [lives, setLives] = useState(3); // Initialize with 3 lives
+  const [points, setPoints] = useState(0); // Initialize with 0 points
 
-  const difficultyOptions = ['easy', 'medium', 'hard'];
-  const categoryOptions = [
+  const categories = [
     { id: 9, name: 'General Knowledge' },
+    { id: 10, name: 'Books' },
     { id: 11, name: 'Film' },
     { id: 12, name: 'Music' },
+    { id: 13, name: 'Musicals & Theatres' },
+    { id: 14, name: 'Television' },
+    { id: 15, name: 'Video Games' },
+    { id: 16, name: 'Board Games' },
+    { id: 17, name: 'Science & Nature' },
+    { id: 18, name: 'Computers' },
   ];
 
+  const difficulties = ['easy', 'medium', 'hard'];
+
   const fetchQuestion = async () => {
-    setButtonsDisabled(false); // Enable buttons for the next question
     try {
       const response = await axios.get(
         `https://opentdb.com/api.php?amount=1&difficulty=${difficulty}&type=multiple&category=${category}`
       );
 
-      const [result] = response.data.results;
+      if (response.data.results.length > 0) {
+        const fetchedQuestion = he.decode(response.data.results[0].question);
+        const fetchedChoices = response.data.results[0].incorrect_answers;
+        const correct = response.data.results[0].correct_answer;
 
-      if (result) {
-        const { question: fetchedQuestion, incorrect_answers: fetchedChoices, correct_answer: correct } = result;
-        const shuffledChoices = [...fetchedChoices, correct].sort(() => Math.random() - 0.5);
+        const shuffledChoices = [...fetchedChoices, correct].sort(
+          () => Math.random() - 0.5
+        );
 
-        setQuestion(he.decode(fetchedQuestion));
+        setQuestion(fetchedQuestion);
         setChoices(shuffledChoices);
         setCorrectAnswer(correct);
+
         setUserAnswer(null);
         setFeedback('');
         setShowNextButton(false);
@@ -52,42 +62,74 @@ const Trivia = () => {
 
   useEffect(() => {
     fetchQuestion();
-  }, [difficulty, category]);
+  }, [category, difficulty]);
 
   const handleAnswer = (answer) => {
-    setButtonsDisabled(true); // Disable buttons after selecting an answer
     const isCorrect = answer === correctAnswer;
 
     if (isCorrect) {
       setFeedback('Correct!');
       setShowNextButton(true);
-      setPoints(points + 1);
     } else {
-      setFeedback(`Incorrect. Correct answer: ${correctAnswer}`);
-      setLives(lives - 1);
-      setTimeout(fetchQuestion, 3000); // Wait for 3 seconds before fetching the next question
-    }
+      setFeedback(`Incorrect. The correct answer is ${correctAnswer}.`);
+      setUserAnswer(answer);
 
-    setUserAnswer(answer);
+      // Disable choices temporarily for 3 seconds on incorrect answer
+      setTimeout(() => {
+        setUserAnswer(null);
+        setFeedback('');
+        setShowNextButton(false);
+        fetchQuestion(); // Fetch the next question
+      }, 3000);
+    }
   };
 
   const handleNextQuestion = () => {
     fetchQuestion();
   };
 
-  const handleRestart = () => {
-    fetchQuestion();
-    setDifficulty('easy');
-    setUserAnswer(null);
-    setFeedback('');
-    setShowNextButton(false);
-    setPoints(0);
-    setLives(3);
-  };
-
   return (
-    <div className="main-container">
-      <div className="question-container">
+    <div className="container">
+      <div className="settings-box">
+        <h2 className="settings-header">Game Settings</h2>
+        <div className="settings-item">
+          <label>Category:</label>
+          <select
+            className="settings-dropdown"
+            onChange={(e) => setCategory(e.target.value)}
+            value={category}
+          >
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="settings-item">
+          <label>Difficulty:</label>
+          <select
+            className="settings-dropdown"
+            onChange={(e) => setDifficulty(e.target.value)}
+            value={difficulty}
+          >
+            {difficulties.map((diff) => (
+              <option key={diff} value={diff}>
+                {diff}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="settings-item">
+          <label>Lives:</label>
+          <span>{lives}</span>
+        </div>
+        <div className="settings-item">
+          <label>Points:</label>
+          <span>{points}</span>
+        </div>
+      </div>
+      <div className="main-content">
         <h1>Trivia Game</h1>
         <p className="question">Question: {question}</p>
         <div className="choices">
@@ -95,58 +137,28 @@ const Trivia = () => {
             <button
               key={index}
               onClick={() => handleAnswer(choice)}
-              disabled={buttonsDisabled} // Disable buttons based on state
+              disabled={userAnswer !== null}
             >
               {choice}
             </button>
           ))}
         </div>
+
         {feedback && (
-          <p className={userAnswer === correctAnswer ? 'feedback success' : 'feedback'}>{feedback}</p>
+          <p
+            className={userAnswer === correctAnswer ? 'feedback success' : 'feedback'}
+          >
+            {feedback}
+          </p>
         )}
+
         {showNextButton && (
           <div className="button-container">
-            <button className="next" onClick={handleNextQuestion}>Next</button>
+            <button className="next" onClick={handleNextQuestion}>
+              Next
+            </button>
           </div>
         )}
-        {!showNextButton && userAnswer !== null && lives === 0 && (
-          <div className="button-container">
-            <button className="restart" onClick={handleRestart}>Restart</button>
-          </div>
-        )}
-      </div>
-      <div className="settings-container">
-        <h2>Game Settings</h2>
-        <div className="setting">
-          <label htmlFor="difficulty">Difficulty:</label>
-          <select
-            id="difficulty"
-            name="difficulty"
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
-          >
-            {difficultyOptions.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        </div>
-        <div className="setting">
-          <label htmlFor="category">Category:</label>
-          <select
-            id="category"
-            name="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {categoryOptions.map((option) => (
-              <option key={option.id} value={option.id}>{option.name}</option>
-            ))}
-          </select>
-        </div>
-        <div className="setting">
-          <p>Lives: {lives}</p>
-          <p>Points: {points}</p>
-        </div>
       </div>
     </div>
   );
