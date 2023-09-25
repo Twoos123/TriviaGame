@@ -9,6 +9,7 @@ body {
   font-family: Arial, sans-serif;
   height: 100vh;
   display: flex;
+  flex-direction: column; /* Align content vertically */
   justify-content: center;
   align-items: center;
 }
@@ -21,6 +22,26 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   max-width: 400px;
   margin: 0 auto;
+  transition: transform 0.2s ease;
+}
+
+.container:hover {
+  transform: scale(1.02);
+}
+
+.category-container {
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  margin: 0 auto 20px auto; /* Adjusted margin to create space between the main container and category container */
+  transition: transform 0.2s ease;
+}
+
+.category-container:hover {
+  transform: scale(1.02);
 }
 
 h1 {
@@ -43,22 +64,22 @@ button {
   color: #fff;
   cursor: pointer;
   border-radius: 5px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
 
 button:hover {
-  transform: scale(1.05); /* Scale MCQ button slightly on hover */
-  background-color: #0056b3; /* Change background color on hover */
+  transform: scale(1.05);
+  background-color: #0056b3;
+  opacity: 0.9;
 }
 
 button.next {
   background-color: #28a745;
-  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 button.next:hover {
-  transform: scale(1.05); /* Scale the "Next" button slightly on hover */
-  background-color: #1d8526; /* Change background color on hover */
+  transform: scale(1.05);
+  background-color: #1d8526;
 }
 
 button.restart {
@@ -66,27 +87,27 @@ button.restart {
   padding: 10px 20px;
   margin: 5px;
   border: none;
-  background-color: #dc3545; /* Red color for restart button */
+  background-color: #dc3545;
   color: #fff;
   cursor: pointer;
   border-radius: 5px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
 
-/* On hover, slightly scale and change background color for the restart button */
 button.restart:hover {
   transform: scale(1.05);
-  background-color: #c82333; /* Darker red on hover */
+  background-color: #c82333;
+  opacity: 0.9;
 }
 
 p.feedback {
   font-size: 18px;
   margin-top: 20px;
-  color: #d9534f; /* Red color for incorrect answers */
+  color: #d9534f;
 }
 
 p.success {
-  color: #5bc0de; /* Blue color for correct answers */
+  color: #5bc0de;
 }
 
 div.button-container {
@@ -94,40 +115,33 @@ div.button-container {
   margin-top: 20px;
 }
 
-/* Style for the difficulty selection buttons */
-.difficulty-buttons {
-  display: flex;
-  justify-content: center; /* Center the buttons horizontally */
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #ccc;
+.category-select {
+  margin-top: 10px;
 }
 
-.difficulty-button {
+.category-select label {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.category-select select {
+  font-size: 16px;
+  padding: 5px;
+}
+
+.category-select button {
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
   background-color: #007bff;
   color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-  margin-bottom: 5px;
+  border-radius: 5px;
+  transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
 }
 
-.easy-button {
-  background-color: #28a745; /* Green for easy */
+.category-select button:hover {
+  transform: scale(1.05);
+  background-color: #0056b3;
+  opacity: 0.9;
 }
-
-.medium-button {
-  background-color: #ff9800; /* Light orange for medium */
-}
-
-.hard-button {
-  background-color: #dc3545; /* Red for hard */
-}
-
-/* Add a class for the active difficulty button */
-.active {
-  background-color: #28a745;
-}
-
