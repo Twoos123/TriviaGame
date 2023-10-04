@@ -11,9 +11,10 @@ const Trivia = () => {
   const [choices, setChoices] = useState([]);
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [difficulty, setDifficulty] = useState('easy');
-  const [category, setCategory] = useState(9); // Default category: General Knowledge
-  const [lives, setLives] = useState(3); // Initialize with 3 lives
-  const [points, setPoints] = useState(0); // Initialize with 0 points
+  const [category, setCategory] = useState(9);
+  const [lives, setLives] = useState(3);
+  const [points, setPoints] = useState(0);
+  const [displayRestartButton, setDisplayRestartButton] = useState(false);
 
   const categories = [
     { id: 9, name: 'General Knowledge' },
@@ -64,15 +65,24 @@ const Trivia = () => {
     fetchQuestion();
   }, [category, difficulty]);
 
+  useEffect(() => {
+    if (lives <= 0) {
+      setDisplayRestartButton(true);
+    }
+  }, [lives]);
+
   const handleAnswer = (answer) => {
     const isCorrect = answer === correctAnswer;
 
     if (isCorrect) {
       setFeedback('Correct!');
+      setPoints(points + 3); // Add 3 points for a correct answer
       setShowNextButton(true);
     } else {
       setFeedback(`Incorrect. The correct answer is ${correctAnswer}.`);
       setUserAnswer(answer);
+      setPoints(points - 1); // Deduct 1 point for an incorrect answer
+      setLives(lives - 1); // Deduct 1 life for an incorrect answer
 
       // Disable choices temporarily for 3 seconds on incorrect answer
       setTimeout(() => {
@@ -85,6 +95,14 @@ const Trivia = () => {
   };
 
   const handleNextQuestion = () => {
+    fetchQuestion();
+  };
+
+  const handleRestart = () => {
+    // Reset the game by setting lives, points, and hiding the restart button
+    setLives(3);
+    setPoints(0);
+    setDisplayRestartButton(false);
     fetchQuestion();
   };
 
@@ -156,6 +174,14 @@ const Trivia = () => {
           <div className="button-container">
             <button className="next" onClick={handleNextQuestion}>
               Next
+            </button>
+          </div>
+        )}
+
+        {displayRestartButton && (
+          <div className="button-container">
+            <button className="restart" onClick={handleRestart}>
+              Restart
             </button>
           </div>
         )}
