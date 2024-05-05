@@ -1,4 +1,4 @@
-# Fullstack React App Trivia Game
+# Frontend React App Trivia Game
 
 Welcome to my Trivia Game! This project, developed from September 2023 to November 2023, is a dynamic and engaging trivia game built with React and backed by a Node server.
 
