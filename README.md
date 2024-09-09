@@ -22,7 +22,7 @@ Welcome to my Trivia Game! This project, developed from September 2023 to Novemb
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/Twoos123/OutStemChallenge.git
+    git clone https://github.com/Twoos123/TriviaGame.git
     ```
 
 2. **Navigate to the project directory:**
