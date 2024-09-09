@@ -28,7 +28,7 @@ Welcome to my Trivia Game! This project, developed from September 2023 to Novemb
 2. **Navigate to the project directory:**
 
     ```bash
-    cd OutStemChallenge
+    cd TriviaGame
     ```
 
 3. **Install dependencies:**
